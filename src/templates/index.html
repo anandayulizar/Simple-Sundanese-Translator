@@ -7,21 +7,21 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Indonesia - Sundanese Translator</h1>
     <div class="container">
+        <h1>Indonesia - Sundanese Translator</h1>
         <form action="" method="post">
             <div class="translation-box">
+                {% if result %}
                     {% if isSunda %}
-                        <label id="left-label" for="left-translation">Sunda</label>
-                        {% else %}
-                        <label id="left-label" for="left-translation">Indonesia</label>
-                        {% endif %}
-                    {% if result %}
-                <label id="left-label" for="left-translation">{{ leftLanguage}}</label>
-                <textarea name="left-translation" id="left-translation" cols="70" rows="20">{{ sentence }}</textarea>
+                    <label id="left-label" for="left-translation">Sunda</label>
+                    {% else %}
+                    <label id="left-label" for="left-translation">Indonesia</label>
+                    {% endif %}
+                
+                <textarea name="left-translation" id="left-translation">{{ sentence }}</textarea>
                 {% else %}
-                <label for="left-translation">Indonesia</label>
-                <textarea name="left-translation" id="left-translation" cols="70" rows="20"></textarea>
+                <label id="left-label" for="left-translation">Indonesia</label>
+                <textarea name="left-translation" id="left-translation"></textarea>
                 {% endif %}
             </div>
             
@@ -30,7 +30,7 @@
                 <input type="radio" name="algorithm" value="1" checked>KMP <br>
                 <input type="radio" name="algorithm" value="2">BM <br>
                 <input type="radio" name="algorithm" value="3">Regex <br>
-                <button type="submit" name="submit" value="Indonesia">Translate</button>
+                <button type="submit" name="submit">Translate</button>
             </div>
             <div class="translation-box">
                 {% if result %}
@@ -42,9 +42,9 @@
                     {% endif %}
                 
                     {% if isSentence %}
-                    <textarea name="right-translation" id="right-translation" cols="70" rows="20">{{ ' '.join(result) }}</textarea>
+                    <textarea name="right-translation" id="right-translation" readonly>{{ ' '.join(result) }}</textarea>
                     {% else %}
-                    <textarea name="right-translation" id="right-translation" cols="70" rows="20">{{ result[0] }}</textarea>
+                    <textarea name="right-translation" id="right-translation" readonly>{{ result[0] }}</textarea>
                     <div class="alternative">
                         <h6>Alternatives:</h6>
                         {% for i in range(1, result|length) %}
@@ -54,8 +54,8 @@
                     {% endif %}
                 
                 {% else %}
-                <label for="right-translation">Sunda</label>
-                <textarea id="right-translation" cols="70" rows="20" readonly></textarea>
+                <label id="right-label" for="right-translation">Sunda</label>
+                <textarea id="right-translation" readonly></textarea>
                 {% endif %}
             </div>
         </form>
@@ -65,17 +65,11 @@
         const submitButton = document.querySelector('button[type="submit"]');
         const leftLabel = document.getElementById('left-label');
         const rightLabel = document.getElementById('right-label');
+
+        submitButton.setAttribute('value', leftLabel.textContent)
         switchButton.addEventListener('click', function () {
-            const prevChoice = submitButton.getAttribute('value');
-            if (prevChoice == 'Indonesia'){
-                submitButton.setAttribute('value', 'Sunda');
-                leftLabel.textContent = 'Sunda';
-                rightLabel.textContent = 'Indonesia';
-            } else {
-                submitButton.setAttribute('value', 'Indonesia');
-                leftLabel.textContent = 'Indonesia';
-                rightLabel.textContent = 'Sunda';
-            }
+            [leftLabel.textContent, rightLabel.textContent] = [rightLabel.textContent, leftLabel.textContent]
+            submitButton.setAttribute('value', leftLabel.textContent)
         });
     </script>
 </body>

@@ -1,10 +1,25 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    font-family: 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: white;
+}
+
+body {
+    background-color: #6599ff;
 }
 
 .container {
-    border: 1px solid black;
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    /* border: 1px solid black; */
+}
+
+h1 {
+    margin-bottom: 35px;
 }
 
 form {
@@ -16,8 +31,42 @@ form {
 
 .translation-box label {
     display: block;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.choice {
+    margin: 40px 20px 0px;
+    /* border: 1px solid black; */
+}
+
+button {
+    margin: 10px 0px;
+    width: 100%;
+    /* background-color: #ff9900; */
+    border: 2px solid #ff9900;
+    background-color: transparent;
+    font-size: 15px;
+    padding: 7.5px 25px;
+    border-radius: 10px;
+    transition: 0.2s ease-out;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #ff9900;
+    font: white;
+}
+
+textarea {
+    color: black;
+    padding: 5px 5px;
+    width: 550px;
+    height: 200px;
+    font-size: 20px;
 }
 
 .alternative  span {
     display: block;
 }
+
