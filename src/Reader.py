@@ -10,6 +10,9 @@ class FolderReader(object):
         for file in (self.files):
             print(file)
 
+    def getFileByFilename(self, filename):
+        return os.path.join(self.folderPath, filename)
+
     def getFileByIndex(self, idxFile):
         filename = self.files[idxFile]
         return os.path.join(self.folderPath, filename)
