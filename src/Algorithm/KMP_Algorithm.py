@@ -1,6 +1,5 @@
 # Using Knuth-Morris-Pratt (Algorithm) to find a keyword 
 # in a given .txt files
-from Reader import FolderReader, TextReader
 
 class KMP_Algorithm(object):
     def preProcessing(self):

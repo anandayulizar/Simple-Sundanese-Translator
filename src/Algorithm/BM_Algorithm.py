@@ -1,6 +1,5 @@
 # Using Booyer Moore Algorithm to find a keyword 
 # in a given .txt files
-from Reader import FolderReader, TextReader
 
 class BM_Algorithm(object):
     def preProcessing(self):
