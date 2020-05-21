@@ -23,69 +23,66 @@ def translate(filename, inputSentence, inputMatcher):
     leftSide, rightSide = splitDictionary(dictionary)
 
     # Split sentence to an array of words
-    # Asumsi minimal terdapat 1 kata untuk di translate
+    # Assumption: The sentence given contains a minimum of one word
     sentenceAsArr = inputSentence.split(' ')
+    while ('' in sentenceAsArr):
+        sentenceAsArr.remove('')
 
     # Set the matcher to the choice of user
     matcher = KMP_Algorithm() if inputMatcher == 1 else BM_Algorithm()
     translated = []
 
     # Find the translation of each word
-    i = 0
-    wordTranslation = []
-    while (i < len(sentenceAsArr)):
-        j = 0
-        altTranslation = []
-        while (j < len(leftSide)):
-            matcher.setTextAndPattern(leftSide[j], sentenceAsArr[i])
+    if (len(sentenceAsArr) > 1):
+        # If the sentence contain more than one word
+        for word in sentenceAsArr:
+            found = False
+            i = 0
+            while (i < len(leftSide) and not found):
+                matcher.setTextAndPattern(leftSide[i], word)
+                result = matcher.matching()
+                if (result != -1 and len(leftSide[i]) == len(word)):
+                    found = True
+                else:
+                    i += 1
+            translated.append(rightSide[i]) if found else translated.append(word)
+    else:
+        # if the sentence only contain one word
+        i = 0
+        while (i < len(leftSide)):
+            matcher.setTextAndPattern(leftSide[i], sentenceAsArr[0])
             result = matcher.matching()
-            if (result != -1 and len(leftSide[j]) == len(sentenceAsArr[i])):
-                altTranslation.append(rightSide[j])
-            j += 1
-        wordTranslation.append(altTranslation) if len(altTranslation) > 0 else wordTranslation.append([sentenceAsArr[i]])
-        i += 1
+            if (result != -1 and len(leftSide[i]) == len(sentenceAsArr[0])):
+                translated.append(rightSide[i])
+            i += 1
+        if len(translated) == 0:
+            translated.append(sentenceAsArr[0]) 
 
-    # Make alternative translation
-    translationResult = wordTranslation[0].copy()
-    i = 1
-    while (i < len(wordTranslation)):
-        temp = []
-        for alternative in wordTranslation[i]:
-            j = 0
-            while (j < len(translationResult)):
-                temp.append(translationResult[j] + ' ' + alternative)
-                j += 1
-        translationResult = temp.copy()
-        i += 1
-
-    
-
-    return translated
-
-
-    # print(translationResult)
-        # translated.append(rightSide[i]) if found else translated.append(word)
-    # print(translated)
-
-    # return ' '.join(translated)
+    return translated, len(sentenceAsArr) - 1
 
 if __name__ == '__main__':
-    # inputTranslation = int(input('Bahasa apa yang ingin anda terjemahkan? \n1. Indonesia \n2. Sunda \n'))
-    inputTranslation = 1
     dictionaryList = ['indonesia.txt', 'sunda.txt']
+
+    inputTranslation = int(input('Bahasa apa yang ingin anda terjemahkan? \n1. Indonesia \n2. Sunda \n'))
+    # inputTranslation = 1
     filename = dictionaryList[inputTranslation - 1]
 
-    # inputSentence = input('Apa yang ingin anda translate? \n')
-    inputSentence = 'nama saya Nanda'
+    inputSentence = input('Apa yang ingin anda translate? \n')
+    # inputSentence = ' nama '
 
-    # inputMatcher = int(input('Dengan algoritma apa anda menginginkan translator ini bekerja? \n1. KMP \n2. BM \n'))
-    inputMatcher = 1
+    inputMatcher = int(input('Dengan algoritma apa anda menginginkan translator ini bekerja? \n1. KMP \n2. BM \n'))
+    # inputMatcher = 1
 
-    translate(filename, inputSentence, inputMatcher)
-
-    # print("Hasil translasi:")
-    # translated = translate(filename, inputSentence, inputMatcher)
-    # print(translated)
+    translated, isSentence = translate(filename, inputSentence, inputMatcher)
+    print('Hasil translasi:')
+    if (isSentence):
+        print(' '.join(translated))
+    else:
+        for alternative in translated:
+            print(alternative)
+            if (alternative == translated[0] and len(translated) > 1):
+                print('Alternatif lain:')
+    
 
 # TODO - 21-05-2020
 # 1. Translate dua kata
