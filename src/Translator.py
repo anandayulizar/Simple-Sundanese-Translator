@@ -23,6 +23,7 @@ def translate(filename, inputSentence, inputMatcher):
     leftSide, rightSide = splitDictionary(dictionary)
 
     # Split sentence to an array of words
+    # Asumsi minimal terdapat 1 kata untuk di translate
     sentenceAsArr = inputSentence.split(' ')
 
     # Set the matcher to the choice of user
@@ -30,40 +31,65 @@ def translate(filename, inputSentence, inputMatcher):
     translated = []
 
     # Find the translation of each word
-    for word in sentenceAsArr:
-        found = False
-        i = 0
-        while (i < len(leftSide) and not found):
-            matcher.setTextAndPattern(leftSide[i], word)
+    i = 0
+    wordTranslation = []
+    while (i < len(sentenceAsArr)):
+        j = 0
+        altTranslation = []
+        while (j < len(leftSide)):
+            matcher.setTextAndPattern(leftSide[j], sentenceAsArr[i])
             result = matcher.matching()
-            if (result != -1 and len(leftSide[i]) == len(word)):
-                found = True
-            else:
-                i += 1
-        translated.append(rightSide[i]) if found else translated.append(word)
+            if (result != -1 and len(leftSide[j]) == len(sentenceAsArr[i])):
+                altTranslation.append(rightSide[j])
+            j += 1
+        wordTranslation.append(altTranslation) if len(altTranslation) > 0 else wordTranslation.append([sentenceAsArr[i]])
+        i += 1
 
-    return ' '.join(translated)
+    # Make alternative translation
+    translationResult = wordTranslation[0].copy()
+    i = 1
+    while (i < len(wordTranslation)):
+        temp = []
+        for alternative in wordTranslation[i]:
+            j = 0
+            while (j < len(translationResult)):
+                temp.append(translationResult[j] + ' ' + alternative)
+                j += 1
+        translationResult = temp.copy()
+        i += 1
+
+    
+
+    return translated
+
+
+    # print(translationResult)
+        # translated.append(rightSide[i]) if found else translated.append(word)
+    # print(translated)
+
+    # return ' '.join(translated)
 
 if __name__ == '__main__':
-    inputTranslation = int(input('Bahasa apa yang ingin anda terjemahkan? \n1. Indonesia \n2. Sunda \n'))
+    # inputTranslation = int(input('Bahasa apa yang ingin anda terjemahkan? \n1. Indonesia \n2. Sunda \n'))
+    inputTranslation = 1
     dictionaryList = ['indonesia.txt', 'sunda.txt']
     filename = dictionaryList[inputTranslation - 1]
 
-    inputSentence = input('Apa yang ingin anda translate? \n')
-    # inputSentence = 'nama saya Riyugan'
+    # inputSentence = input('Apa yang ingin anda translate? \n')
+    inputSentence = 'nama saya Nanda'
 
-    inputMatcher = int(input('Dengan algoritma apa anda menginginkan translator ini bekerja? \n1. KMP \n2. BM \n'))
-    # inputMatcher = 1
+    # inputMatcher = int(input('Dengan algoritma apa anda menginginkan translator ini bekerja? \n1. KMP \n2. BM \n'))
+    inputMatcher = 1
 
+    translate(filename, inputSentence, inputMatcher)
 
-    print("Hasil translasi:")
-    translated = translate(filename, inputSentence, inputMatcher)
-    print(translated)
+    # print("Hasil translasi:")
+    # translated = translate(filename, inputSentence, inputMatcher)
+    # print(translated)
 
 # TODO - 21-05-2020
 # 1. Translate dua kata
 # 2. Tambahkan/abaikan teh
-# 3. Read Dictionary berdasarkan nama file (ubah dari yang bekas tucil 4)
 
 # TODO SOON
 # 1. Regex
