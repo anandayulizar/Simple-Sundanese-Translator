@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indonesia - Sundanese Translator</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Indonesia - Sundanese Translator</h1>
+    <div class="container">
+        <form action="" method="post">
+            <div class="translation-box">
+                    {% if isSunda %}
+                        <label id="left-label" for="left-translation">Sunda</label>
+                        {% else %}
+                        <label id="left-label" for="left-translation">Indonesia</label>
+                        {% endif %}
+                    {% if result %}
+                <label id="left-label" for="left-translation">{{ leftLanguage}}</label>
+                <textarea name="left-translation" id="left-translation" cols="70" rows="20">{{ sentence }}</textarea>
+                {% else %}
+                <label for="left-translation">Indonesia</label>
+                <textarea name="left-translation" id="left-translation" cols="70" rows="20"></textarea>
+                {% endif %}
+            </div>
+            
+            <div class="choice">
+                <button type="button" id="switch">Switch!</button> <br>
+                <input type="radio" name="algorithm" value="1" checked>KMP <br>
+                <input type="radio" name="algorithm" value="2">BM <br>
+                <input type="radio" name="algorithm" value="3">Regex <br>
+                <button type="submit" name="submit" value="Indonesia">Translate</button>
+            </div>
+            <div class="translation-box">
+                {% if result %}
+
+                    {% if isSunda %}
+                    <label id="right-label" for="right-translation">Indonesia</label>
+                    {% else %}
+                    <label id="right-label" for="right-translation">Sunda</label>
+                    {% endif %}
+                
+                    {% if isSentence %}
+                    <textarea name="right-translation" id="right-translation" cols="70" rows="20">{{ ' '.join(result) }}</textarea>
+                    {% else %}
+                    <textarea name="right-translation" id="right-translation" cols="70" rows="20">{{ result[0] }}</textarea>
+                    <div class="alternative">
+                        <h6>Alternatives:</h6>
+                        {% for i in range(1, result|length) %}
+                            <span>{{ result[i] }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                
+                {% else %}
+                <label for="right-translation">Sunda</label>
+                <textarea id="right-translation" cols="70" rows="20" readonly></textarea>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+    <script>
+        const switchButton = document.getElementById('switch');
+        const submitButton = document.querySelector('button[type="submit"]');
+        const leftLabel = document.getElementById('left-label');
+        const rightLabel = document.getElementById('right-label');
+        switchButton.addEventListener('click', function () {
+            const prevChoice = submitButton.getAttribute('value');
+            if (prevChoice == 'Indonesia'){
+                submitButton.setAttribute('value', 'Sunda');
+                leftLabel.textContent = 'Sunda';
+                rightLabel.textContent = 'Indonesia';
+            } else {
+                submitButton.setAttribute('value', 'Indonesia');
+                leftLabel.textContent = 'Indonesia';
+                rightLabel.textContent = 'Sunda';
+            }
+        });
+    </script>
+</body>
+</html>
+

@@ -105,6 +105,7 @@ if __name__ == '__main__':
 
 # TODO - 21-05-2020
 # 1. Translate dua kata
+# 2. Folder txt masukin ke src aja
 
 # TODO SOON
 # 1. Aplikasikan ke web (Nanti akan lebih dirinci)
