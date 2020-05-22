@@ -35,6 +35,11 @@ form {
     font-size: 20px;
 }
 
+.translation-box span.warning {
+    display: block;
+    font-size: 10px;
+}
+
 .choice {
     margin: 40px 20px 0px;
     width: 175px;
@@ -73,6 +78,7 @@ textarea {
 
 .alternative  span {
     display: block;
+    font-size: 15px;
 }
 
 footer {

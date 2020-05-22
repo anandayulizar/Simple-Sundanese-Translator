@@ -14,7 +14,7 @@ class BM_Algorithm(object):
     def setTextAndPattern(self, text, pattern):
         self.text = text.lower()
         self.pattern = pattern.lower()
-        self.fail = self.preProcessing()
+        self.preProcessing()
 
     def match(self):
         idxMatch = -1

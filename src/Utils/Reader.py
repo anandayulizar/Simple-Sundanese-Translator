@@ -5,17 +5,18 @@ class FolderReader(object):
         self.foldername = foldername
         self.folderPath = os.path.join(os.getcwd(), os.pardir, foldername)
         self.files = os.listdir(self.folderPath)
+        self.textReader = TextReader()
 
     def printAllFile(self):
         for file in (self.files):
             print(file)
 
     def getFileByFilename(self, filename):
-        return os.path.join(self.folderPath, filename)
+        return self.textReader.getFileContent(os.path.join(self.folderPath, filename))
 
     def getFileByIndex(self, idxFile):
         filename = self.files[idxFile]
-        return os.path.join(self.folderPath, filename)
+        return self.textReader.getFileContent(os.path.join(self.folderPath, filename))
 
 class TextReader(object):
     def getFileContent(self, filename):

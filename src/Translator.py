@@ -31,19 +31,18 @@ def findWord(leftSide, rightSide, matcher, word):
 def translate(filename, inputSentence, inputMatcher):
     # Read dictionary folder and read each dictionary text
     dictFolder = FolderReader('dictionary')
-    textReader = TextReader()
-    dictionary = textReader.getFileContent(dictFolder.getFileByFilename(filename))
+    dictionary = dictFolder.getFileByFilename(filename)
     leftSide, rightSide = splitDictionary(dictionary)
 
     stopWordsFolder = FolderReader('stopWords')
-    stopWords = textReader.getFileContent(stopWordsFolder.getFileByFilename(filename))
+    stopWords = stopWordsFolder.getFileByFilename(filename)
 
     subjectFolder = FolderReader('subject')
     if (filename == 'sunda.txt'):
-        subject = textReader.getFileContent(subjectFolder.getFileByFilename('indonesia.txt'))
+        subject = subjectFolder.getFileByFilename('indonesia.txt')
         addTeh = False
     else:
-        subject = textReader.getFileContent(subjectFolder.getFileByFilename('sunda.txt'))
+        subject = subjectFolder.getFileByFilename('sunda.txt')
         addTeh = True
 
     # Split sentence to an array of words

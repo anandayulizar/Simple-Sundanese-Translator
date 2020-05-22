@@ -5,6 +5,10 @@ import re
 class Regex(object):
     def setTextAndPattern(self, text, pattern):
         self.text = text.lower()
+        metaCharacter = '<([{\^-=$!|}])?*+.>'
+        for char in metaCharacter:
+            if (char in pattern):
+                pattern = pattern.replace(char, '\\' + char)
         self.pattern = "(" + pattern.lower() + ")"
 
     def match(self):
