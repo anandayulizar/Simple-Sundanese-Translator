@@ -11,9 +11,9 @@ def index():
         dictionary = request.form['submit'].lower() + '.txt'
         isSunda = request.form['submit'] == 'Sunda'
 
-        result, isSentence = translate(dictionary, sentence, matcher)
+        result, alternatives = translate(dictionary, sentence, matcher)
 
-        return render_template('index.html', sentence=sentence, matcher=matcher, result=result, isSentence=isSentence, isSunda=isSunda)   
+        return render_template('index.html', sentence=sentence, result=result, alternatives=alternatives, isSunda=isSunda)   
     except:   
         return render_template('index.html')
 

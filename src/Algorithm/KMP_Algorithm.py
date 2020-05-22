@@ -26,7 +26,7 @@ class KMP_Algorithm(object):
         self.pattern = pattern.lower()
         self.fail = self.preProcessing()
 
-    def matching(self):
+    def match(self):
         idxMatch = -1
         found = False
         patternLength = len(self.pattern)

@@ -15,7 +15,7 @@ body {
     left: 50%;
     top: 40%;
     transform: translate(-50%, -50%);
-    /* border: 1px solid black; */
+    height: 50%;
 }
 
 h1 {
@@ -37,6 +37,7 @@ form {
 
 .choice {
     margin: 40px 20px 0px;
+    width: 175px;
     /* border: 1px solid black; */
 }
 
@@ -66,7 +67,28 @@ textarea {
     font-size: 20px;
 }
 
+.alternative .header {
+    text-decoration: underline;
+}
+
 .alternative  span {
     display: block;
+}
+
+footer {
+    position: absolute;
+    bottom: 0%;
+    left: 0%;
+    width: 100%;
+    height: 75px;
+    background-color: #273c75;
+}
+
+footer span {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 

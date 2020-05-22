@@ -7,6 +7,6 @@ class Regex(object):
         self.text = text.lower()
         self.pattern = "(" + pattern.lower() + ")"
 
-    def matching(self):
+    def match(self):
         match = re.search(self.pattern, self.text)
         return 1 if match else -1
