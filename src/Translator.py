@@ -1,7 +1,7 @@
-from Utils.Reader import FolderReader, TextReader
-from Algorithm.KMP_Algorithm import KMP_Algorithm
-from Algorithm.BM_Algorithm import BM_Algorithm
-from Algorithm.Regex import Regex
+from utils.reader import FolderReader, TextReader
+from matcher.kmp_algorithm import KMP_Algorithm
+from matcher.bm_algorithm import BM_Algorithm
+from matcher.regex import Regex
 import re
 
 def mapTranslation(left, translation):
@@ -40,10 +40,10 @@ def translate(filename, inputSentence, inputMatcher):
     subjectFolder = FolderReader('subject')
     if (filename == 'sunda.txt'):
         subject = subjectFolder.getFileByFilename('indonesia.txt')
-        addTeh = False
+        addStopWords = False
     else:
         subject = subjectFolder.getFileByFilename('sunda.txt')
-        addTeh = True
+        addStopWords = True
 
     # Split sentence to an array of words
     # Assumption: The sentence given contains a minimum of one word
@@ -81,7 +81,7 @@ def translate(filename, inputSentence, inputMatcher):
         if (len(tempAlt) > 0):
             alternatives[sentenceAsArr[i]] = tempAlt
 
-        if (translated[len(translated) - 1] in subject and addTeh and i < len(translated) - 1):
+        if (translated[len(translated) - 1] in subject and addStopWords and i < len(translated) - 1):
             translated.append('teh')
         
         i += 1
