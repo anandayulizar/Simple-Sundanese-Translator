@@ -24,7 +24,7 @@ python get-pip.py
 pip install flask
 ```
 
-Now you are ready to run the program
+Now you are ready to run the program!
 
 ## How to Run Command Line Version
 1. Open the downloaded/cloned repo through your command line
@@ -42,4 +42,5 @@ Now you are ready to run the program
 - The dictionary files does not contain a complete list of all Indonesia/Sunda word
 - Only the word 'teh' is added as a stop word
 
+## Video
 To watch a video about this program, you can go [here](https://youtu.be/FZrf59JwHNw)
