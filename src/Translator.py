@@ -18,15 +18,31 @@ def splitDictionary(dictionary):
     return leftSide, rightSide
 
 def findWord(leftSide, rightSide, matcher, word):
-    tempAlt = []
+    # Find the word in the dictionary
+    # And return the translation in array of results
+    results = []
     j = 0
     while (j < len(leftSide)):
         matcher.setTextAndPattern(leftSide[j], word)
         result = matcher.match()
         if (result != -1 and len(leftSide[j]) == len(word)):
-            tempAlt.append(rightSide[j])
+            results.append(rightSide[j])
         j += 1
-    return tempAlt
+
+    return results
+
+def separateMark(word):
+    # Remove punctuation mark that are in the list
+    # from the word
+    punctuationMark = [',', '.', '?', '!']
+    tempMark = ''
+    for mark in punctuationMark:
+        if (mark in word):
+            word = word.replace(mark, '')
+            tempMark = mark
+            break
+    
+    return word, tempMark
 
 def translate(filename, inputSentence, inputMatcher):
     # Read dictionary folder and read each dictionary text
@@ -61,27 +77,34 @@ def translate(filename, inputSentence, inputMatcher):
     i = 0
     while (i < len(sentenceAsArr)):
         # found = False
-        word = sentenceAsArr[i]
+        word = sentenceAsArr[i]        
+        word, tempMark = separateMark(word)
         tempAlt = findWord(leftSide, rightSide, matcher, word)
 
+        # Check for multi word tranlation that includes the current word
+        # Example: tidak = henteu, tidak mau = embung
         isMultiWord = False
-        temp = i
-        while (temp + 1 < len(sentenceAsArr) and not isMultiWord):
-            checkMultiWord = findWord(leftSide, rightSide, matcher, word + ' '+ sentenceAsArr[temp + 1])
+        tempIdx = i + 1
+        multiWord = word
+        while (tempIdx < len(sentenceAsArr) and not isMultiWord):
+            multiWord += ' '+ sentenceAsArr[tempIdx]
+            multiWord, tempMark2 = separateMark(multiWord)
+            checkMultiWord = findWord(leftSide, rightSide, matcher, multiWord)
             if (len(checkMultiWord) > 0):
                 tempAlt = list(checkMultiWord)
-                word += ' '+ sentenceAsArr[temp + 1]
-                i = temp + 1
+                i = tempIdx
+                tempMark = tempMark2
                 isMultiWord = True
+                word = multiWord
             else:
-                temp += 1
-                word += ' '+ sentenceAsArr[temp]
-        
-        translated.append(tempAlt.pop(0)) if len(tempAlt) > 0 else translated.append(sentenceAsArr[i])
+                tempIdx += 1
+                
+        wordTranslation = (tempAlt.pop(0) if len(tempAlt) > 0 else word) + tempMark
+        translated.append(wordTranslation)
         if (len(tempAlt) > 0):
-            alternatives[sentenceAsArr[i]] = tempAlt
+            alternatives[word] = tempAlt
 
-        if (translated[len(translated) - 1] in subject and addStopWords and i < len(translated) - 1):
+        if (translated[len(translated) - 1] in subject and addStopWords and i < len(sentenceAsArr) - 1):
             translated.append('teh')
         
         i += 1
@@ -106,11 +129,3 @@ if __name__ == '__main__':
         for key, value in alternatives.items():
             print(key, end=': ')
             print(', '.join(value))
-        
-    # if (isSentence):
-    #     print(' '.join(translated))
-    # else:
-    #     for alternative in translated:
-    #         print(alternative)
-    #         if (alternative == translated[0] and len(translated) > 1):
-    #             print('Alternatif lain:')

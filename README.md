@@ -42,4 +42,4 @@ Now you are ready to run the program
 - The dictionary files does not contain a complete list of all Indonesia/Sunda word
 - Only the word 'teh' is added as a stop word
 
-To watch a video about this program, you can go [here](https://www.youtube.com/watch?v=6wj5Fm_uYJI)
+To watch a video about this program, you can go [here](https://youtu.be/FZrf59JwHNw)
